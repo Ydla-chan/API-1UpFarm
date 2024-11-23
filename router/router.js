@@ -5,11 +5,16 @@ const userPlantController = require('../controller/modules/userPlant/controller'
 const plantController = require('../controller/modules/plant/controller');
 const todoController = require('../controller/modules/todolist/controller'); 
 const todoTaskController = require('../controller/modules/todotask/controller'); // Import TodoTask Controller
-const response = require('../response/response'); // Utility response handling
 const avatarController = require('../controller/modules/avatar/controller'); // Sesuaikan path dengan lokasi file controller
-// const authMiddleware = require('../middleware/auth'); // Example for authentication middleware
+const authController = require('../controller/modules/user/AuthController'); // Import AuthController
 
 module.exports = (app) => {
+  // Auth Routes
+  app.route('/auth/register')
+    .post(authController.registerUser); // Register user
+
+  app.route('/auth/login')
+    .post(authController.loginUser); // Login user
 
   // User Routes
   app.route('/user')
@@ -67,7 +72,8 @@ module.exports = (app) => {
     .put(plantController.updatePlant)   // Update a plant by ID
     .delete(plantController.deletePlant); // Delete a plant by ID
   
-    app.route('/avatar')
+  // Avatar Routes
+  app.route('/avatar')
     .get(avatarController.getAllAvatars)   // Get all avatars
     .post(avatarController.createAvatar); // Create a new avatar
   
