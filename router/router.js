@@ -16,6 +16,9 @@ module.exports = (app) => {
   app.route('/auth/login')
     .post(authController.loginUser); // Login user
 
+  app.route('/auth/logout')
+    .post(authController.logoutUser); // Logout user
+
   // User Routes
   app.route('/user')
     .get(userController.getUsers)       // Get all users

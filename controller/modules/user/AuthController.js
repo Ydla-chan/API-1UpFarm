@@ -139,7 +139,7 @@ exports.loginUser = (req, res) => {
 
             // Buat token JWT
             const token = jwt.sign(
-                { id: user.name, email: user.email },
+                { id: user.id, email: user.email },
                 SECRET_KEY,
                 { expiresIn: '1h' } 
             );
@@ -156,6 +156,15 @@ exports.loginUser = (req, res) => {
                 message: 'Error processing login',
             });
         }
+    });
+};
+
+// **Logout User**
+exports.logoutUser = (req, res) => {
+    // Logout endpoint instructs the client to clear its token
+    res.status(200).json({
+        status: 200,
+        message: 'User successfully logged out.',
     });
 };
 
