@@ -139,7 +139,7 @@ exports.loginUser = (req, res) => {
 
             // Buat token JWT
             const token = jwt.sign(
-                { id: user.id, email: user.email },
+                { id: user.userid, name: user.name, email: user.email },
                 SECRET_KEY,
                 { expiresIn: '1h' } 
             );
