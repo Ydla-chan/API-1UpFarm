@@ -26,9 +26,9 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `avatars`
 --
-DROP DATABASE IF EXISTS oneupfarm_db;
-CREATE DATABASE oneupfarm_db;
-USE oneupfarm_db;
+DROP DATABASE IF EXISTS oneupfarm;
+CREATE DATABASE oneupfarm;
+USE oneupfarm;
 CREATE TABLE `avatars` (
   `avatarsId` int NOT NULL,
   `userId` int NOT NULL,

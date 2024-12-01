@@ -4,7 +4,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root', // Replace with your MySQL username
   password: '', // Replace with your MySQL password
-  database: 'oneupfarm_db' // Your database name
+  database: 'oneupfarm', // Your database name
 });
 
 db.connect((err) => {
