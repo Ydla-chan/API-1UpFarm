@@ -3,23 +3,23 @@
 const db = require('../../../connection/conn');
 const response = require('../../../response/response');
 
-// Create a new avatar
-exports.createAvatar = (req, res) => {
+// Create a new avatars
+exports.createavatars = (req, res) => {
   const { userId, exp, gold, level, health, maxhealth } = req.body;
 
   if (!userId || !exp || !gold || !level || !health || !maxhealth) {
     return response.serverError('All fields are required', res);
   }
 
-  const query = `INSERT INTO avatar (userId, exp, gold, level, health, maxhealth) 
+  const query = `INSERT INTO avatarss (userId, exp, gold, level, health, maxhealth) 
                  VALUES (?, ?, ?, ?, ?, ?)`;
   db.query(query, [userId, exp, gold, level, health, maxhealth], (err, result) => {
     if (err) {
-      console.error('Error creating avatar:', err);
-      response.serverError('Error creating avatar', res);
+      console.error('Error creating avatars:', err);
+      response.serverError('Error creating avatars', res);
     } else {
       response.success({
-        message: 'Avatar created successfully',
+        message: 'avatars created successfully',
         data: { avatarId: result.insertId, userId, exp, gold, level, health, maxhealth },
       }, res);
     }
@@ -28,89 +28,89 @@ exports.createAvatar = (req, res) => {
 
 // Get all avatars
 exports.getAllAvatars = (req, res) => {
-  const query = 'SELECT * FROM avatar';
+  const query = 'SELECT * FROM avatars';
   db.query(query, (err, results) => {
     if (err) {
-      console.error('Error fetching avatars:', err);
-      response.serverError('Error fetching avatars', res);
+      console.error('Error fetching avatarss:', err);
+      response.serverError('Error fetching avatarss', res);
     } else {
       response.success({
-        message: 'Avatars retrieved successfully',
+        message: 'avatarss retrieved successfully',
         data: results,
       }, res);
     }
   });
 };
 
-// Get avatar by userId
-exports.getAvatarByUserId = (req, res) => {
+// Get avatars by userId
+exports.getavatarsByUserId = (req, res) => {
   const { userId } = req.params;
 
   if (!userId) {
     return response.serverError('User ID is required', res);
   }
 
-  const query = 'SELECT * FROM avatar WHERE userId = ?';
+  const query = 'SELECT * FROM avatars WHERE userId = ?';
   db.query(query, [userId], (err, results) => {
     if (err) {
-      console.error('Error fetching avatar by userId:', err);
-      response.serverError('Error fetching avatar by userId', res);
+      console.error('Error fetching avatars by userId:', err);
+      response.serverError('Error fetching avatars by userId', res);
     } else if (results.length === 0) {
-      response.serverError('No avatar found for this user', res);
+      response.serverError('No avatars found for this user', res);
     } else {
       response.success({
-        message: `Avatar for userId ${userId} retrieved successfully`,
+        message: `avatars for userId ${userId} retrieved successfully`,
         data: results[0],
       }, res);
     }
   });
 };
 
-// Update an avatar
-exports.updateAvatar = (req, res) => {
-  const { avatarId } = req.params;
+// Update an avatars
+exports.updateavatars = (req, res) => {
+  const { avatarsId } = req.params;
   const { exp, gold, level, health, maxhealth } = req.body;
 
-  if (!avatarId) {
-    return response.serverError('Avatar ID is required', res);
+  if (!avatarsId) {
+    return response.serverError('avatars ID is required', res);
   }
 
-  const query = `UPDATE avatar 
+  const query = `UPDATE avatars 
                  SET exp = ?, gold = ?, level = ?, health = ?, maxhealth = ? 
-                 WHERE avatarId = ?`;
-  db.query(query, [exp, gold, level, health, maxhealth, avatarId], (err, result) => {
+                 WHERE avatarsId = ?`;
+  db.query(query, [exp, gold, level, health, maxhealth, avatarsId], (err, result) => {
     if (err) {
-      console.error('Error updating avatar:', err);
-      response.serverError('Error updating avatar', res);
+      console.error('Error updating avatars:', err);
+      response.serverError('Error updating avatars', res);
     } else if (result.affectedRows === 0) {
-      response.serverError('Avatar not found', res);
+      response.serverError('avatars not found', res);
     } else {
       response.success({
-        message: `Avatar with ID ${avatarId} updated successfully`,
-        data: { avatarId, exp, gold, level, health, maxhealth },
+        message: `avatars with ID ${avatarsId} updated successfully`,
+        data: { avatarsId, exp, gold, level, health, maxhealth },
       }, res);
     }
   });
 };
 
-// Delete an avatar
-exports.deleteAvatar = (req, res) => {
-  const { avatarId } = req.params;
+// Delete an avatars
+exports.deleteavatars = (req, res) => {
+  const { avatarsId } = req.params;
 
-  if (!avatarId) {
-    return response.serverError('Avatar ID is required', res);
+  if (!avatarsId) {
+    return response.serverError('avatars ID is required', res);
   }
 
-  const query = 'DELETE FROM avatar WHERE avatarId = ?';
-  db.query(query, [avatarId], (err, result) => {
+  const query = 'DELETE FROM avatars WHERE avatarsId = ?';
+  db.query(query, [avatarsId], (err, result) => {
     if (err) {
-      console.error('Error deleting avatar:', err);
-      response.serverError('Error deleting avatar', res);
+      console.error('Error deleting avatars:', err);
+      response.serverError('Error deleting avatars', res);
     } else if (result.affectedRows === 0) {
-      response.serverError('Avatar not found', res);
+      response.serverError('avatars not found', res);
     } else {
       response.success({
-        message: `Avatar with ID ${avatarId} deleted successfully`,
+        message: `avatars with ID ${avatarsId} deleted successfully`,
       }, res);
     }
   });

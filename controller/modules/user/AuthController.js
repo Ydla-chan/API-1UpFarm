@@ -8,8 +8,8 @@ const SECRET_KEY = 'a4d62e1cf3c8ab7f9e8f6e5c3a2b1d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8g
 
 // **Helper untuk mapping gender**
 const genderMap = {
-    L: 'Laki-laki',
-    P: 'Perempuan',
+    M: 'Laki-laki',
+    F: 'Perempuan',
 };
 
 // **Register User**
@@ -25,7 +25,7 @@ exports.registerUser = async (req, res) => {
     }
 
     // Validasi gender
-    if (!['L', 'P'].includes(gender)) {
+    if (!['M', 'F'].includes(gender)) {
         return res.status(400).json({
             status: 400,
             message: 'Gender must be L (Laki-laki) or P (Perempuan)',
@@ -43,7 +43,7 @@ exports.registerUser = async (req, res) => {
 
     try {
         // Periksa apakah email sudah terdaftar
-        const checkQuery = 'SELECT * FROM user_tb WHERE email = ?';
+        const checkQuery = 'SELECT * FROM users WHERE email = ?';
         db.query(checkQuery, [email], async (err, results) => {
             if (err) {
                 console.error('Database error (checking email):', err);
@@ -65,7 +65,8 @@ exports.registerUser = async (req, res) => {
             const hashedPassword = await bcrypt.hash(password, 10);
 
             // Simpan user ke database
-            const insertQuery = 'INSERT INTO user_tb (name, email, password, gender, UrlProfile) VALUES (?, ?, ?, ?, ?)';
+            const insertQuery = 'INSERT INTO users (name, email, password, gender, UrlProfile) VALUES (?, ?, ?, ?, ?)';
+            console.log(insertQuery);
             db.query(insertQuery, [name, email, hashedPassword, gender, UrlProfile], (err, result) => {
                 if (err) {
                     console.error('Database error (inserting user):', err);
@@ -108,7 +109,7 @@ exports.loginUser = (req, res) => {
         });
     }
 
-    const query = 'SELECT * FROM user_tb WHERE email = ?';
+    const query = 'SELECT * FROM users WHERE email = ?';
     db.query(query, [email], async (err, results) => {
         if (err) {
             console.error('Database error (fetching user):', err);
