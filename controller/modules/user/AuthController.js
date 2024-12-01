@@ -14,7 +14,7 @@ const genderMap = {
 
 // **Register User**
 exports.registerUser = async (req, res) => {
-    const { name, email, password, gender, UrlProfile } = req.body;
+    const { name, email, password, gender } = req.body;
 
     // Validasi input
     if (!name || !email || !password || !gender) {
@@ -65,7 +65,7 @@ exports.registerUser = async (req, res) => {
             const hashedPassword = await bcrypt.hash(password, 10);
 
             // Simpan user ke database
-            const insertQuery = 'INSERT INTO users (name, email, password, gender, UrlProfile) VALUES (?, ?, ?, ?, ?)';
+            const insertQuery = 'INSERT INTO users (name, email, password, gender) VALUES (?, ?, ?, ?)';
             console.log(insertQuery);
             db.query(insertQuery, [name, email, hashedPassword, gender, UrlProfile], (err, result) => {
                 if (err) {
