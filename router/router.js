@@ -74,12 +74,12 @@ module.exports = (app) => {
   // **Avatar Routes**
   app.route('/avatar')
     .get(avatarController.getAllAvatars) // Get all avatars
-    .post(avatarController.createAvatar); // Create a new avatar
+    .post(avatarController.createavatars); // Create a new avatar
 
   app.route('/avatar/:avatarId')
-    .put(avatarController.updateAvatar) // Update an avatar by ID
-    .delete(avatarController.deleteAvatar); // Delete an avatar by ID
+    .put(avatarController.updateavatars) // Update an avatar by ID
+    .delete(avatarController.deleteavatars); // Delete an avatar by ID
 
   app.route('/avatar/user/:userId')
-    .get(avatarController.getAvatarByUserId); // Get avatar by user ID
+    .get(avatarController.getavatarsByUserId); // Get avatar by user ID
 };
