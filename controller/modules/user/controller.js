@@ -6,7 +6,7 @@ const response = require('../../../response/response');  // Response utility
 // Create a new user
 exports.createUser = (req, res) => {
     const { name, email, password, gender, UrlProfile } = req.body;
-    const query = 'INSERT INTO user_tb (name, email, password, gender, UrlProfile) VALUES (?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO users (name, email, password, gender, UrlProfile) VALUES (?, ?, ?, ?, ?)';
     db.query(query, [name, email, password, gender, UrlProfile], (err, result) => {
       if (err) {
         console.error("Database error:", err); // Log detail error dari database
@@ -20,7 +20,7 @@ exports.createUser = (req, res) => {
 
 // Get all users
 exports.getUsers = (req, res) => {
-  const query = 'SELECT * FROM user_tb';
+  const query = 'SELECT * FROM users';
   db.query(query, (err, results) => {
     if (err) {
       response.serverError('Error fetching user data', res);
@@ -33,7 +33,7 @@ exports.getUsers = (req, res) => {
 // Get a single user by ID
 exports.getUserById = (req, res) => {
   const userId = req.params.id;
-  const query = 'SELECT * FROM user_tb WHERE userid = ?';
+  const query = 'SELECT * FROM users WHERE userid = ?';
   
   db.query(query, [userId], (err, results) => {
     if (err) {
@@ -51,7 +51,7 @@ exports.updateUser = (req, res) => {
   const userId = req.params.id;
   const { name, email, password, gender, UrlProfile } = req.body;
 
-  const query = 'UPDATE user_tb SET name = ?, email = ?, password = ?, gender = ?, UrlProfile = ? WHERE userid = ?';
+  const query = 'UPDATE users SET name = ?, email = ?, password = ?, gender = ?, UrlProfile = ? WHERE userid = ?';
   db.query(query, [name, email, password, gender, UrlProfile, userId], (err, result) => {
     if (err) {
       response.serverError('Error updating user', res);
@@ -66,7 +66,7 @@ exports.updateUser = (req, res) => {
 // Delete a user
 exports.deleteUser = (req, res) => {
   const userId = req.params.id;
-  const query = 'DELETE FROM user_tb WHERE userid = ?';
+  const query = 'DELETE FROM users WHERE userid = ?';
   
   db.query(query, [userId], (err, result) => {
     if (err) {
