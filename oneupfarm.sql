@@ -30,13 +30,13 @@ DROP DATABASE IF EXISTS oneupfarm;
 CREATE DATABASE oneupfarm;
 USE oneupfarm;
 CREATE TABLE `avatars` (
-  `avatarsId` int NOT NULL,
+  `avatarId` int NOT NULL,
   `userId` int NOT NULL,
-  `exp` varchar(255) NOT NULL,
-  `gold` varchar(255) NOT NULL,
-  `level` varchar(255) NOT NULL,
-  `health` varchar(255) NOT NULL,
-  `maxHealth` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+  `exp` INT NOT NULL,
+  `gold` INT NOT NULL,
+  `level` INT NOT NULL,
+  `health` INT NOT NULL,
+  `maxHealth` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -72,7 +72,7 @@ CREATE TABLE `todo_lists` (
   `userPlantId` int NOT NULL,
   `status` varchar(255) NOT NULL,
   `date` date NOT NULL,
-  `IsOverdue` enum('true','false') NOT NULL
+  `isOverdue` enum('true','false') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -85,7 +85,7 @@ CREATE TABLE `todo_tasks` (
   `todoTaskId` int NOT NULL,
   `todoId` int NOT NULL,
   `name` varchar(255) NOT NULL,
-  `Iscomplote` enum('true','false') NOT NULL,
+  `isComplete` enum('true','false') NOT NULL,
   `gold` varchar(255) NOT NULL,
   `task` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -148,7 +148,7 @@ INSERT INTO `users` (`userid`, `name`, `email`, `password`, `gender`) VALUES
 -- Indexes for table `avatars`
 --
 ALTER TABLE `avatars`
-  ADD PRIMARY KEY (`avatarsId`),
+  ADD PRIMARY KEY (`avatarId`),
   ADD KEY `fk_userIdavatars` (`userId`);
 
 --
@@ -194,7 +194,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `avatars`
 --
 ALTER TABLE `avatars`
-  MODIFY `avatarsId` int NOT NULL AUTO_INCREMENT;
+  MODIFY `avatarId` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `plants`
