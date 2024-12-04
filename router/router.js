@@ -14,6 +14,9 @@ module.exports = (app) => {
   app.route('/auth/register').post(authController.registerUser); // Register user
   app.route('/auth/login').post(authController.loginUser); // Login user
   app.route('/auth/logout').post(authController.logoutUser); // Logout user
+  app.route('/auth/cekme')
+  .get(authController.cekMe); // Cek auth dan return user info
+
 
   // **User Routes**
   app.route('/user')

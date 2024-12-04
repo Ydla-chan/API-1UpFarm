@@ -28,7 +28,7 @@ exports.registerUser = async (req, res) => {
     // Validasi gender
     if (!['M', 'F'].includes(gender)) {
         return res.status(400).json({
-            status: 400,
+            statusCode: 400,
             message: 'Gender must be L (Laki-laki) or P (Perempuan)',
         });
     }
@@ -143,7 +143,7 @@ exports.loginUser = (req, res) => {
             const token = jwt.sign(
                 { id: user.userid, name: user.name, email: user.email },
                 SECRET_KEY,
-                { expiresIn: '1h' } 
+                { expiresIn: '1d' } 
             );
 
             res.status(200).json({
@@ -189,6 +189,30 @@ exports.authenticateJWT = (req, res, next) => {
         return res.status(403).json({
             status: 403,
             message: 'Invalid or expired token',
+        });
+    }
+};
+
+exports.cekMe = (req, res) => {
+    try {
+        // Data pengguna yang diautentikasi tersedia di req.user
+        const user = req.user;
+
+        // Return data pengguna
+        res.status(200).json({
+            status: 200,
+            message: 'Auth Berhasil',
+            data: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+            },
+        });
+    } catch (error) {
+        console.error('Error in cekMe:', error);
+        res.status(401).json({
+            status: 401,
+            message: 'Auth User Gagal',
         });
     }
 };
