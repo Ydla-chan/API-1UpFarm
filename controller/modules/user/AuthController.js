@@ -139,11 +139,11 @@ exports.loginUser = (req, res) => {
                 });
             }
 
-            // Buat token JWT
+            // JWT Token 
             const token = jwt.sign(
                 { id: user.userid, name: user.name, email: user.email },
                 SECRET_KEY,
-                { expiresIn: '1d' } 
+                { expiresIn: '1d' }  // Expires in 1 day
             );
 
             res.status(200).json({
