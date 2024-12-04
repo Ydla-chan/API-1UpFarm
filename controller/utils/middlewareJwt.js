@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'a4d62e1cf3c8ab7f9e8f6e5c3a2b1d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8g9h0';
+
+require('dotenv').config();
+const SECRET_KEY = process.env.SECRET_KEY;
+
 
 exports.authenticateJWT = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1]; // Extract token from Authorization header

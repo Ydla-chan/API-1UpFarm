@@ -1,10 +1,11 @@
 'use strict';
+require('dotenv').config();
 
 const db = require('../../../connection/conn'); // Koneksi ke database
 const bcrypt = require('bcryptjs'); // Untuk hashing password
 const jwt = require('jsonwebtoken'); // Untuk JWT token
 const response = require('../../../response/response'); // Utilitas response
-const SECRET_KEY = 'a4d62e1cf3c8ab7f9e8f6e5c3a2b1d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8g9h0';
+const SECRET_KEY = process.env.SECRET_KEY;
 
 // **Helper untuk mapping gender**
 const genderMap = {
