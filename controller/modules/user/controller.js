@@ -1,22 +1,22 @@
 'use strict';
 
-const db = require('../../../connection/conn');  // Adjust path as necessary
-const response = require('../../../response/response');  // Response utility
+const db = require('../../../connection/conn'); // Adjust path as necessary
+const response = require('../../../response/response'); // Response utility
 
 // Create a new user
 exports.createUser = (req, res) => {
-    const { name, email, password, gender, UrlProfile } = req.body;
-    const query = 'INSERT INTO users (name, email, password, gender, UrlProfile) VALUES (?, ?, ?, ?, ?)';
-    db.query(query, [name, email, password, gender, UrlProfile], (err, result) => {
-      if (err) {
-        console.error("Database error:", err); // Log detail error dari database
-        return response.serverError('Error creating user', res);
-      }
-  
-      response.success({ id: result.insertId, name, email, gender, UrlProfile }, res);
-    });
-  };
-  
+  const { name, email, password, gender } = req.body;
+  const query =
+    'INSERT INTO users (name, email, password, gender) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [name, email, password, gender], (err, result) => {
+    if (err) {
+      console.error('Database error:', err); // Log detail error dari database
+      return response.serverError('Error creating user', res);
+    }
+
+    response.success({ id: result.insertId, name, email, gender }, res);
+  });
+};
 
 // Get all users
 exports.getUsers = (req, res) => {
@@ -34,7 +34,7 @@ exports.getUsers = (req, res) => {
 exports.getUserById = (req, res) => {
   const userId = req.params.id;
   const query = 'SELECT * FROM users WHERE userid = ?';
-  
+
   db.query(query, [userId], (err, results) => {
     if (err) {
       response.serverError('Error fetching user data', res);
@@ -49,16 +49,17 @@ exports.getUserById = (req, res) => {
 // Update user information
 exports.updateUser = (req, res) => {
   const userId = req.params.id;
-  const { name, email, password, gender, UrlProfile } = req.body;
+  const { name, email, password, gender } = req.body;
 
-  const query = 'UPDATE users SET name = ?, email = ?, password = ?, gender = ?, UrlProfile = ? WHERE userid = ?';
-  db.query(query, [name, email, password, gender, UrlProfile, userId], (err, result) => {
+  const query =
+    'UPDATE users SET name = ?, email = ?, password = ?, gender = ? = ? WHERE userid = ?';
+  db.query(query, [name, email, password, gender, userId], (err, result) => {
     if (err) {
       response.serverError('Error updating user', res);
     } else if (result.affectedRows === 0) {
       response.serverError('User not found', res);
     } else {
-      response.success({ userId, name, email, gender, UrlProfile }, res);
+      response.success({ userId, name, email, gender }, res);
     }
   });
 };
@@ -67,7 +68,7 @@ exports.updateUser = (req, res) => {
 exports.deleteUser = (req, res) => {
   const userId = req.params.id;
   const query = 'DELETE FROM users WHERE userid = ?';
-  
+
   db.query(query, [userId], (err, result) => {
     if (err) {
       response.serverError('Error deleting user', res);
