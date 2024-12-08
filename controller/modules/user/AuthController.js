@@ -140,7 +140,7 @@ exports.loginUser = (req, res) => {
       // JWT Token
       const token = jwt.sign(
         {
-          id: user.userid,
+          userId: user.userid,
           name: user.name,
           email: user.email,
           gender: user.gender,

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 30, 2024 at 11:53 AM
+-- Generation Time: Dec 05, 2024 at 07:46 PM
 -- Server version: 8.0.30
--- PHP Version: 8.2.9
+-- PHP Version: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `oneupfarm_db`
+-- Database: `oneupfarm`
 --
 
 -- --------------------------------------------------------
@@ -32,11 +32,11 @@ USE oneupfarm;
 CREATE TABLE `avatars` (
   `avatarId` int NOT NULL,
   `userId` int NOT NULL,
-  `exp` INT NOT NULL,
-  `gold` INT NOT NULL,
-  `level` INT NOT NULL,
-  `health` INT NOT NULL,
-  `maxHealth` INT NOT NULL
+  `exp` int NOT NULL,
+  `gold` int NOT NULL,
+  `level` int NOT NULL,
+  `health` int NOT NULL,
+  `maxHealth` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -78,7 +78,7 @@ CREATE TABLE `todo_lists` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `todo_task`
+-- Table structure for table `todo_tasks`
 --
 
 CREATE TABLE `todo_tasks` (
@@ -89,6 +89,29 @@ CREATE TABLE `todo_tasks` (
   `gold` varchar(255) NOT NULL,
   `task` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `userid` int NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `gender` enum('F','M') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`userid`, `name`, `email`, `password`, `gender`) VALUES
+(4, 'Aldy Jhonatan hutasoit', 'Aldyjhonatanhutasoit.1', 'password123', 'F'),
+(8, 'SudahSaatnya Tidur', 'Tidur123@gmail.com', '$2a$10$cxToxt6HMqvQkK3RhxPWm.2S.jIhXKV.wZaoxBU.ESQ5xisczGk86', 'M'),
+(9, 'SudahSaatnya Tidur', 'Tidur12333@gmail.com', '$2a$10$o88HF278ihqy85N.qpveS.HjHqK2ppIGv2SODHr4nyb9iU/AEb5BW', 'M');
 
 -- --------------------------------------------------------
 
@@ -116,30 +139,6 @@ INSERT INTO `user_plants` (`userPlantId`, `userId`, `plantId`, `PlantDate`, `har
 (7, 8, 2, '2024-11-01', '2024-12-01', 'pot', 'tanah', 'true'),
 (8, 8, 2, '2024-11-01', '2024-12-01', 'pot', 'tanah', 'true');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `userId` int NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `gender` enum('F','M') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`userid`, `name`, `email`, `password`, `gender`) VALUES
-(4, 'Aldy Jhonatan hutasoit', 'Aldyjhonatanhutasoit.1', 'password123', 'F'),
-(8, 'SudahSaatnya Tidur', 'Tidur123@gmail.com', '$2a$10$cxToxt6HMqvQkK3RhxPWm.2S.jIhXKV.wZaoxBU.ESQ5xisczGk86', 'M'),
-(9, 'SudahSaatnya Tidur', 'Tidur12333@gmail.com', '$2a$10$o88HF278ihqy85N.qpveS.HjHqK2ppIGv2SODHr4nyb9iU/AEb5BW', 'M'),
-(10, 'SudahSaatnya Tidur', 'ewe@gmail.com', '$2a$10$RfcKhxwbPxUJmLYqTIGFNu8J98H2liMa2rh0YJCqBWzg2M3hzm0wK', 'M');
-
 --
 -- Indexes for dumped tables
 --
@@ -165,11 +164,19 @@ ALTER TABLE `todo_lists`
   ADD KEY `fk_userplantId` (`userPlantId`);
 
 --
--- Indexes for table `todo_task`
+-- Indexes for table `todo_tasks`
 --
 ALTER TABLE `todo_tasks`
   ADD PRIMARY KEY (`todoTaskId`),
   ADD KEY `fk_todoId` (`todoId`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`userid`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `email_2` (`email`);
 
 --
 -- Indexes for table `user_plants`
@@ -178,13 +185,6 @@ ALTER TABLE `user_plants`
   ADD PRIMARY KEY (`userPlantId`),
   ADD KEY `fk_userId` (`userId`),
   ADD KEY `fk_plantid` (`plantId`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`userid`),
-  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -209,22 +209,22 @@ ALTER TABLE `todo_lists`
   MODIFY `todoId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `todo_task`
+-- AUTO_INCREMENT for table `todo_tasks`
 --
 ALTER TABLE `todo_tasks`
   MODIFY `todoTaskId` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `userid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user_plants`
 --
 ALTER TABLE `user_plants`
   MODIFY `userPlantId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `userid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -243,7 +243,7 @@ ALTER TABLE `todo_lists`
   ADD CONSTRAINT `fk_userplantId` FOREIGN KEY (`userPlantId`) REFERENCES `user_plants` (`userPlantId`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
--- Constraints for table `todo_task`
+-- Constraints for table `todo_tasks`
 --
 ALTER TABLE `todo_tasks`
   ADD CONSTRAINT `fk_todoId` FOREIGN KEY (`todoId`) REFERENCES `todo_lists` (`todoId`) ON DELETE RESTRICT ON UPDATE RESTRICT;
