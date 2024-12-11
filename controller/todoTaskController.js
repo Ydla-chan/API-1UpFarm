@@ -1,7 +1,7 @@
 'use strict';
 
-const db = require('../../../connection/conn');
-const response = require('../../../response/response');
+const db = require('../connection/conn');
+const response = require('../response/response');
 
 // Create a new todo_task
 exports.createTodoTask = (req, res) => {
@@ -18,10 +18,20 @@ exports.createTodoTask = (req, res) => {
       console.error('Error creating todo_task:', err);
       response.serverError('Error creating todo_task', res);
     } else {
-      response.success({
-        message: 'Todo task created successfully',
-        data: { todoTaskId: result.insertId, todoId, name, IsComplete, gold, task },
-      }, res);
+      response.success(
+        {
+          message: 'Todo task created successfully',
+          data: {
+            todoTaskId: result.insertId,
+            todoId,
+            name,
+            IsComplete,
+            gold,
+            task,
+          },
+        },
+        res
+      );
     }
   });
 };
@@ -34,10 +44,13 @@ exports.getAllTodoTasks = (req, res) => {
       console.error('Error fetching todo_tasks:', err);
       response.serverError('Error fetching todo_tasks', res);
     } else {
-      response.success({
-        message: 'Todo tasks retrieved successfully',
-        data: results,
-      }, res);
+      response.success(
+        {
+          message: 'Todo tasks retrieved successfully',
+          data: results,
+        },
+        res
+      );
     }
   });
 };
@@ -58,10 +71,13 @@ exports.getTodoTasksByTodoId = (req, res) => {
     } else if (results.length === 0) {
       response.serverError('No tasks found for this todo', res);
     } else {
-      response.success({
-        message: `Tasks for todoId ${todoId} retrieved successfully`,
-        data: results,
-      }, res);
+      response.success(
+        {
+          message: `Tasks for todoId ${todoId} retrieved successfully`,
+          data: results,
+        },
+        res
+      );
     }
   });
 };
@@ -85,10 +101,13 @@ exports.updateTodoTask = (req, res) => {
     } else if (result.affectedRows === 0) {
       response.serverError('Todo task not found', res);
     } else {
-      response.success({
-        message: `Todo task with ID ${todoTaskId} updated successfully`,
-        data: { todoTaskId, name, IsComplete, gold, task },
-      }, res);
+      response.success(
+        {
+          message: `Todo task with ID ${todoTaskId} updated successfully`,
+          data: { todoTaskId, name, IsComplete, gold, task },
+        },
+        res
+      );
     }
   });
 };
@@ -109,9 +128,12 @@ exports.deleteTodoTask = (req, res) => {
     } else if (result.affectedRows === 0) {
       response.serverError('Todo task not found', res);
     } else {
-      response.success({
-        message: `Todo task with ID ${todoTaskId} deleted successfully`,
-      }, res);
+      response.success(
+        {
+          message: `Todo task with ID ${todoTaskId} deleted successfully`,
+        },
+        res
+      );
     }
   });
 };

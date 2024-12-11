@@ -1,25 +1,38 @@
 'use strict';
 
-const db = require('../../../connection/conn');
-const response = require('../../../response/response');
+const db = require('../connection/conn');
+const response = require('../response/response');
 
-// Pembuatan Tanaman Baru 
+// Pembuatan Tanaman Baru
 exports.createPlant = (req, res) => {
   const { UrlPicture, harvestDay, plantName, difficulty } = req.body;
 
   const query = `INSERT INTO plants (UrlPicture, harvestDay, plantName, difficulty) 
                  VALUES (?, ?, ?, ?)`;
-  db.query(query, [UrlPicture, harvestDay, plantName, difficulty], (err, result) => {
-    if (err) {
-      console.error('Error creating plant:', err);
-      response.serverError('Error creating plant', res);
-    } else {
-      response.success({ plantId: result.insertId, UrlPicture, harvestDay, plantName, difficulty }, res);
+  db.query(
+    query,
+    [UrlPicture, harvestDay, plantName, difficulty],
+    (err, result) => {
+      if (err) {
+        console.error('Error creating plant:', err);
+        response.serverError('Error creating plant', res);
+      } else {
+        response.success(
+          {
+            plantId: result.insertId,
+            UrlPicture,
+            harvestDay,
+            plantName,
+            difficulty,
+          },
+          res
+        );
+      }
     }
-  });
+  );
 };
 
-// Pengambilan Data Tanaman 
+// Pengambilan Data Tanaman
 exports.getAllPlants = (req, res) => {
   const query = 'SELECT * FROM plants';
   db.query(query, (err, results) => {
@@ -55,16 +68,23 @@ exports.updatePlant = (req, res) => {
 
   const query = `UPDATE plants SET UrlPicture = ?, harvestDay = ?, plantName = ?, difficulty = ? 
                  WHERE plantId = ?`;
-  db.query(query, [UrlPicture, harvestDay, plantName, difficulty, plantId], (err, result) => {
-    if (err) {
-      console.error('Error updating plant:', err);
-      response.serverError('Error updating plant', res);
-    } else if (result.affectedRows === 0) {
-      response.serverError('Plant not found', res);
-    } else {
-      response.success({ plantId, UrlPicture, harvestDay, plantName, difficulty }, res);
+  db.query(
+    query,
+    [UrlPicture, harvestDay, plantName, difficulty, plantId],
+    (err, result) => {
+      if (err) {
+        console.error('Error updating plant:', err);
+        response.serverError('Error updating plant', res);
+      } else if (result.affectedRows === 0) {
+        response.serverError('Plant not found', res);
+      } else {
+        response.success(
+          { plantId, UrlPicture, harvestDay, plantName, difficulty },
+          res
+        );
+      }
     }
-  });
+  );
 };
 
 // Delete a plant

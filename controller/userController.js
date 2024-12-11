@@ -1,7 +1,7 @@
 'use strict';
 
-const db = require('../../../connection/conn'); // Adjust path as necessary
-const response = require('../../../response/response'); // Response utility
+const db = require('../connection/conn'); // Adjust path as necessary
+const response = require('../response/response'); // Response utility
 
 // Create a new user
 exports.createUser = (req, res) => {

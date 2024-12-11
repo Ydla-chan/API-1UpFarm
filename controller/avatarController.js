@@ -1,7 +1,7 @@
 'use strict';
 
-const db = require('../../../connection/conn');
-const response = require('../../../response/response');
+const db = require('../connection/conn');
+const response = require('../response/response');
 
 // Create a new avatars
 exports.createavatars = (req, res) => {
@@ -13,17 +13,32 @@ exports.createavatars = (req, res) => {
 
   const query = `INSERT INTO avatarss (userId, exp, gold, level, health, maxhealth) 
                  VALUES (?, ?, ?, ?, ?, ?)`;
-  db.query(query, [userId, exp, gold, level, health, maxhealth], (err, result) => {
-    if (err) {
-      console.error('Error creating avatars:', err);
-      response.serverError('Error creating avatars', res);
-    } else {
-      response.success({
-        message: 'avatars created successfully',
-        data: { avatarId: result.insertId, userId, exp, gold, level, health, maxhealth },
-      }, res);
+  db.query(
+    query,
+    [userId, exp, gold, level, health, maxhealth],
+    (err, result) => {
+      if (err) {
+        console.error('Error creating avatars:', err);
+        response.serverError('Error creating avatars', res);
+      } else {
+        response.success(
+          {
+            message: 'avatars created successfully',
+            data: {
+              avatarId: result.insertId,
+              userId,
+              exp,
+              gold,
+              level,
+              health,
+              maxhealth,
+            },
+          },
+          res
+        );
+      }
     }
-  });
+  );
 };
 
 // Get all avatars
@@ -34,10 +49,13 @@ exports.getAllAvatars = (req, res) => {
       console.error('Error fetching avatarss:', err);
       response.serverError('Error fetching avatarss', res);
     } else {
-      response.success({
-        message: 'avatarss retrieved successfully',
-        data: results,
-      }, res);
+      response.success(
+        {
+          message: 'avatarss retrieved successfully',
+          data: results,
+        },
+        res
+      );
     }
   });
 };
@@ -58,10 +76,13 @@ exports.getavatarsByUserId = (req, res) => {
     } else if (results.length === 0) {
       response.serverError('No avatars found for this user', res);
     } else {
-      response.success({
-        message: `avatars for userId ${userId} retrieved successfully`,
-        data: results[0],
-      }, res);
+      response.success(
+        {
+          message: `avatars for userId ${userId} retrieved successfully`,
+          data: results[0],
+        },
+        res
+      );
     }
   });
 };
@@ -78,19 +99,26 @@ exports.updateavatars = (req, res) => {
   const query = `UPDATE avatars 
                  SET exp = ?, gold = ?, level = ?, health = ?, maxhealth = ? 
                  WHERE avatarsId = ?`;
-  db.query(query, [exp, gold, level, health, maxhealth, avatarsId], (err, result) => {
-    if (err) {
-      console.error('Error updating avatars:', err);
-      response.serverError('Error updating avatars', res);
-    } else if (result.affectedRows === 0) {
-      response.serverError('avatars not found', res);
-    } else {
-      response.success({
-        message: `avatars with ID ${avatarsId} updated successfully`,
-        data: { avatarsId, exp, gold, level, health, maxhealth },
-      }, res);
+  db.query(
+    query,
+    [exp, gold, level, health, maxhealth, avatarsId],
+    (err, result) => {
+      if (err) {
+        console.error('Error updating avatars:', err);
+        response.serverError('Error updating avatars', res);
+      } else if (result.affectedRows === 0) {
+        response.serverError('avatars not found', res);
+      } else {
+        response.success(
+          {
+            message: `avatars with ID ${avatarsId} updated successfully`,
+            data: { avatarsId, exp, gold, level, health, maxhealth },
+          },
+          res
+        );
+      }
     }
-  });
+  );
 };
 
 // Delete an avatars
@@ -109,9 +137,12 @@ exports.deleteavatars = (req, res) => {
     } else if (result.affectedRows === 0) {
       response.serverError('avatars not found', res);
     } else {
-      response.success({
-        message: `avatars with ID ${avatarsId} deleted successfully`,
-      }, res);
+      response.success(
+        {
+          message: `avatars with ID ${avatarsId} deleted successfully`,
+        },
+        res
+      );
     }
   });
 };

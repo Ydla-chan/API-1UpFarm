@@ -1,7 +1,7 @@
 'use strict';
 
-const db = require('../../../connection/conn');
-const response = require('../../../response/response');
+const db = require('../connection/conn');
+const response = require('../response/response');
 
 // Membuat ToDo baru
 exports.createToDo = (req, res) => {
@@ -13,7 +13,10 @@ exports.createToDo = (req, res) => {
       console.error('Error creating ToDo:', err);
       response.serverError('Error creating ToDo', res);
     } else {
-      response.success({ todoId: result.insertId, userPlantId, status, date, IsOverdue }, res);
+      response.success(
+        { todoId: result.insertId, userPlantId, status, date, IsOverdue },
+        res
+      );
     }
   });
 };
