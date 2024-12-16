@@ -13,11 +13,11 @@ const MiddlewareJwt = require('../controller/utils/middlewareJwt');
 module.exports = (app) => {
   const router = express.Router();
 
-  // // **Auth Routes**
-  // router.post('/auth/register', authController.registerUser); // Register user
-  // router.post('/auth/login', authController.loginUser); // Login user
-  // router.post('/auth/logout', authController.logoutUser); // Logout user
-  // router.get('/auth/cekme', authController.cekMe); // Cek auth dan return user info
+  // **Auth Routes**
+  router.post('/auth/register', authController.registerUser); // Register useR
+  router.post('/auth/login', authController.loginUser); // Login user
+  router.post('/auth/logout', authController.logoutUser); // Logout user
+  router.get('/auth/cekme', authController.cekMe); // Cek auth dan return user info
 
   // // **User Routes**
   // router

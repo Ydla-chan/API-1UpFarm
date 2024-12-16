@@ -5,6 +5,8 @@ const db = require('../connection/conn'); // Koneksi ke database
 const bcrypt = require('bcryptjs'); // Untuk hashing password
 const jwt = require('jsonwebtoken'); // Untuk JWT token
 const response = require('../response/response'); // Utilitas response
+const { request } = require('express');
+const { header } = require('express/lib/request');
 const SECRET_KEY = process.env.SECRET_KEY;
 
 // **Register User**
@@ -236,6 +238,7 @@ exports.cekMe = (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
+        gender: user.gender,
       },
     });
   } catch (error) {

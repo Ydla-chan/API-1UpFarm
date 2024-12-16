@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const router = require('./routes');
 const response = require('../response/response');
 require('dotenv').config(); // Memuat variabel dari .env
@@ -9,6 +10,7 @@ const port = process.env.PORT;
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 app.use('/static', express.static(path.join(__dirname, '../public')));
 
 // Route Awal API
